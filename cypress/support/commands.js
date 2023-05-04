@@ -28,36 +28,37 @@
 
 /// <reference types="cypress-xpath" />
 
-Cypress.Commands.add('getIframe', (iframe)=>{
-  return cy.get(iframe)
-      .its('0.contentDocument.body')
-      .should('be.visible')
-      .then(cy.wrap);
-})
+Cypress.Commands.add("getIframe", (iframe) => {
+  return cy
+    .get(iframe)
+    .its("0.contentDocument.body")
+    .should("be.visible")
+    .then(cy.wrap);
+});
 
 // Custom command for clicking on link using label
-Cypress.Commands.add('clickLink', (label)=>{
-  cy.get('a').contains(label).click();
-
-})
+Cypress.Commands.add("clickLink", (label) => {
+  cy.get("a").contains(label).click();
+});
 
 // Over write contains() command
-Cypress.Commands.overwrite('contains', (originalFn, subject, filter, text, options = {})=> {
-  // determine if a filter argument was passed
-  if (typeof text === 'object'){
-    options = text
-    text = filter
-    filter = undefined
+Cypress.Commands.overwriteQuery(
+  "contains",
+  (originalFn, subject, filter, text, options = {}) => {
+    // determine if a filter argument was passed
+    if (typeof text === "object") {
+      options = text;
+      text = filter;
+      filter = undefined;
+    }
+    options.matchCase = false;
+    return originalFn(subject, filter, text, options);
   }
-  options.matchCase = false
-  return originalFn(subject, filter, text, options)
-
-})
+);
 
 // Custom command for login
-Cypress.Commands.add("loginApp", (email, password)=> {
+Cypress.Commands.add("loginApp", (email, password) => {
   cy.get("#Email").type(email);
   cy.get("#Password").type(password);
   cy.get("button[class='button-1 login-button']").click();
-
-})
+});
