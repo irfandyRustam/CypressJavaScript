@@ -29,3 +29,6 @@ cypress/videos
 cypress/screenshots
 cypress/downloads
 cypress/reports
+
+# GitHub credentials data (sensitive information)
+cypress/fixtures/githubAuth.json
